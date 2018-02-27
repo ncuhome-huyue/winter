@@ -131,20 +131,28 @@ def gettime():
 @app.route('/api/getnowbook')
 def getnowbook()
 	if 'PHPSESSID' in session：
+		s = requests.Session()
+		jar = requests.cookies.RequestsCookieJar()
+		jar.set('PHPSESSID',session.get('PHPSESSID'),domain='210.35.251.243',path='/')
+		hisurl = "http://210.35.251.243/reader/book_lst.php"
+		hispage = s.get(hisurl,cookies=jar)
+		hismess = BeautifulSoup(hispage.text,'lxml')
 		hisbooks = hismess.find_all("a",{"class":"blue"})
+		cz = hismess.find_all("input",{"class":"btn btn-success"})
 		ln = 0
 		lm = 1
-		lx = 0
 		book_date = []
 		while ln < len(hisbooks):
 			newl = []
 			newl.append(hisbooks[ln].get_text())
-			newl.append(hisbooks[lx])
 			newl.append(tag_list[lm])
+			if cz[ln].attrs['value'] == '续借':
+				newl.append('未续借')
+			else:
+				newl.append(cz[ln].attrs['value'])
 			book_date.append(newl)
 			ln = ln + 1
 			lm = lm + 3
-			lx = lx + 3
 		return jsonify({'data':book_date})
 	else:
 		return jsonify({'status':'error'})
