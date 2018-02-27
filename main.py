@@ -127,6 +127,27 @@ def gettime():
 			return jsonify({'time':None})
 	else:
 		return jsonify({'status':'error'})
+	
+@app.route('/api/getnowbook')
+def getnowbook()
+	if 'PHPSESSID' in session：
+		hisbooks = hismess.find_all("a",{"class":"blue"})
+		ln = 0
+		lm = 1
+		lx = 0
+		book_date = []
+		while ln < len(hisbooks):
+			newl = []
+			newl.append(hisbooks[ln].get_text())
+			newl.append(hisbooks[lx])
+			newl.append(tag_list[lm])
+			book_date.append(newl)
+			ln = ln + 1
+			lm = lm + 3
+			lx = lx + 3
+		return jsonify({'data':book_date})
+	else:
+		return jsonify({'status':'error'})
 
 @app.route('/web/<string:web>')
 def index(web):
