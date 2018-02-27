@@ -68,8 +68,11 @@ def readnum():
 		rnum = s.get('http://210.35.251.243/reader/book_hist.php',cookies=jar)
 		mess = BeautifulSoup(rnum.text,'lxml')
 		booknums = mess.find_all("td",{"bgcolor":"#FFFFFF","class":"whitetext","width":"5%"})
-		booknum = booknums[-1].get_text()
-		return jsonify({'booknum':booknum})
+		if booknum:
+			booknum = booknums[-1].get_text()
+			return jsonify({'booknum':booknum})
+		else:
+			return jsonify({'booknum':0})
 	else:
     		return jsonify({'status':'error'})
 
@@ -114,11 +117,14 @@ def gettime():
 			ti = limit_time - nowtime
 			day = ti//86400
 			day_list.append(int(day))
-		min_time = day_list[0]
-		for x in day_list[1:]:
-			if x < min_time:
-				min_time = x
-		return jsonify({'time':min_time})
+		if day_list:
+			min_time = day_list[0]
+			for x in day_list[1:]:
+				if x < min_time:
+					min_time = x
+			return jsonify({'time':min_time})
+		else:
+			return jsonify({'time':None})
 	else:
 		return jsonify({'status':'error'})
 
