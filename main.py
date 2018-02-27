@@ -87,6 +87,41 @@ def getpercent():
     	else:
     		return jsonify({'status':'error'})
 
+@app.route('/api/gettime')
+def gettime():
+	if 'PHPSESSID' in session：
+		s = requests.Session()
+		jar = requests.cookies.RequestsCookieJar()
+		jar.set('PHPSESSID',session.get('PHPSESSID'),domain='210.35.251.243',path='/')
+		hisurl = "http://210.35.251.243/reader/book_lst.php"
+		hispage = s.get(hisurl,cookies=jar)
+		hismess = BeautifulSoup(hispage.text,'lxml')
+		date_tag_list = hismess.find_all("td",{"class":"whitetext","width":"13%"})
+		tag_list = []
+		for char in date_tag_list:
+			tag_list.append(char.get_text())
+			z = 1
+		str_date_list = []
+		while z <= len(tag_list)-1:
+			str_date = tag_list[z]
+			str_date_list.append(str_date.split("-"))
+			z = z+3
+		day_list = []
+		for l in str_date_list:
+			t = datetime.datetime(int(l[0]),int(l[1]),int(l[2]),0,0,0)
+			limit_time = time.mktime(t.timetuple())
+			nowtime = time.time()
+			ti = limit_time - nowtime
+			day = ti//86400
+			day_list.append(int(day))
+		min_time = day_list[0]
+		for x in day_list[1:]:
+			if x < min_time:
+				min_time = x
+		return jsonify({'time':min_time})
+	else:
+		return jsonify({'status':'error'})
+
 @app.route('/web/<string:web>')
 def index(web):
     return render_template(web)
