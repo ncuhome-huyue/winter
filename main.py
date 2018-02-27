@@ -49,15 +49,15 @@ def login():
 	jar = requests.cookies.RequestsCookieJar()
 	jar.set('PHPSESSID',session.get('PHPSESSID'),domain='210.35.251.243',path='/')
 	loginurl = "http://210.35.251.243/reader/redr_verify.php"
-    payload = {"number":request.form.get('username'),"passwd":request.form.get('password'),"captcha":request.form.get('yanzheng'),"select":"cert_no","returnUrl":""}
-    login = s.post(loginurl , data = payload , cookies=jar)
-    napage = s.get("http://210.35.251.243/reader/redr_info.php", cookies=jar)
-    na = BeautifulSoup(napage.text,'lxml')
-    library_name = na.find("span",{"class":"profile-name"}).get_text()
-    if library_name is not None:
-        return jsonify({'status':'success','name':library_name})
-    else:
-    	return jsonify({'status':'error'})
+	payload = {"number":request.form.get('username'),"passwd":request.form.get('password'),"captcha":request.form.get('yanzheng'),"select":"cert_no","returnUrl":""}
+	login = s.post(loginurl , data = payload , cookies=jar)
+	napage = s.get("http://210.35.251.243/reader/redr_info.php", cookies=jar)
+	na = BeautifulSoup(napage.text,'lxml')
+	library_name = na.find("span",{"class":"profile-name"}).get_text()
+	if library_name is not None:
+		return jsonify({'status':'success','name':library_name})
+	else:
+		return jsonify({'status':'error'})
 
 @app.route('/api/readnum')
 def readnum():
@@ -66,12 +66,12 @@ def readnum():
 		jar = requests.cookies.RequestsCookieJar()
 		jar.set('PHPSESSID',session.get('PHPSESSID'),domain='210.35.251.243',path='/')
 		rnum = s.get('http://210.35.251.243/reader/book_hist.php',cookies=jar)
-    	mess = BeautifulSoup(rnum.text,'lxml')
-    	booknums = mess.find_all("td",{"bgcolor":"#FFFFFF","class":"whitetext","width":"5%"})
-    	booknum = booknums[-1].get_text()
-    	return jsonify({'booknum':booknum})
-    else:
-    	return jsonify({'status':'error'})
+		mess = BeautifulSoup(rnum.text,'lxml')
+		booknums = mess.find_all("td",{"bgcolor":"#FFFFFF","class":"whitetext","width":"5%"})
+		booknum = booknums[-1].get_text()
+		return jsonify({'booknum':booknum})
+	else:
+    		return jsonify({'status':'error'})
 
 @app.route('/api/getpercent')
 def getpercent():
@@ -83,9 +83,9 @@ def getpercent():
 		homepage = s.get(homeurl,cookies=jar)
 		pagemess = BeautifulSoup(homepage.text,'lxml')
 		percent = pagemess.find("h2",{"class":"h2"}).find("span",{"class":"Num"}).get_text()
-    	return jsonify({'percent':percent})
-    else:
-    	return jsonify({'status':'error'})
+    		return jsonify({'percent':percent})
+    	else:
+    		return jsonify({'status':'error'})
 
 @app.route('/web/<string:web>')
 def index(web):
