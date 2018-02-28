@@ -20,13 +20,33 @@ def getpinglun(bookID):
 		c = conn.cursor()
 		for x in range(pl_content):
 			c.execute(r"SELECT kind FROM COMPANY WHERE pl_id = '%s' AND fromID = '%s';"%(pl_content[x][0],session.get('username')))
-			kind = c.fetchone()
+			kind = c.fetchall()
 			if kind:
-				pl_content[x].append(kind[0])
+				pl_content[x].append(kind[0][0])
 			else:
 				pl_content[x].append(None)
 		conn.close()
 		return jsonify({'data':pl_content})
+	else:
+		return jsonify({'state':'error'})
+
+@app.route('/api/postzancai',methods=['POST'])
+def postzancai():
+	if 'username' in session:
+		conn = connect('sql/zan_and_cai.db')
+		c = conn.cursor()
+		c.execute(r"SELECT kind FROM COMPANY WHERE pl_id = '%s' AND fromID = '%s';"%(request.form.get('pl_id'),session.get('username')))
+		kind = c.fetchall()
+		if kind:
+			conn.close()
+			return jsonify({'state':'have'})
+		else:
+			post_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+			c.execute(r"INSERT INTO COMPANY VALUES ('%s','%s','%s','%s','%s')"%(request.form.get('pl_id'),request.form.get('kind'),request.form.get('book_id'),session.get('username'),post_time))
+			conn.close()
+			return jsonify({'state':'success'})
+	else:
+		return jsonify({'state':'error'})
 
 @app.route('/api/getbangdan_collection')
 def bangdan_collection():
