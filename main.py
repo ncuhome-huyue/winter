@@ -43,6 +43,7 @@ def postzancai():
 		else:
 			post_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 			c.execute(r"INSERT INTO COMPANY VALUES ('%s','%s','%s','%s','%s')"%(request.form.get('pl_id'),request.form.get('kind'),request.form.get('book_id'),session.get('username'),post_time))
+			conn.commit()
 			conn.close()
 			return jsonify({'state':'success'})
 	else:
