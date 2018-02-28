@@ -10,12 +10,23 @@ app.secret_key = '~\xc8\xc6\xe0\xf3,\x98O\xa8z4\xfb=\rNd'
 
 @app.route('/api/getpinglun/<string:bookID>')
 def getpinglun(bookID):
-	conn = connect('sql/pinglun.db')
-	c = conn.cursor()
-	c.execute(r"SELECT pl,fromID,time,zan,cai FROM COMPANY WHERE bookID = '%s';"%(bookID))
-	pl_content = c.fetchall()
-	conn.close()
-	return jsonify({'data':pl_content})
+	if 'username' in session:
+		conn = connect('sql/pinglun.db')
+		c = conn.cursor()
+		c.execute(r"SELECT pl_id,pl,fromID,time,zan,cai FROM COMPANY WHERE bookID = '%s';"%(bookID))
+		pl_content = c.fetchall()
+		conn.close()
+		conn = connect('sql/zan_and_cai.db')
+		c = conn.cursor()
+		for x in range(pl_content):
+			c.execute(r"SELECT kind FROM COMPANY WHERE pl_id = '%s' AND fromID = '%s';"%(pl_content[x][0],session.get('username')))
+			kind = c.fetchone()
+			if kind:
+				pl_content[x].append(kind[0])
+			else:
+				pl_content[x].append(None)
+		conn.close()
+		return jsonify({'data':pl_content})
 
 @app.route('/api/getbangdan_collection')
 def bangdan_collection():
@@ -55,6 +66,7 @@ def login():
 	na = BeautifulSoup(napage.text,'lxml')
 	library_name = na.find("span",{"class":"profile-name"}).get_text()
 	if library_name is not None:
+		session['username'] = request.form.get('username')
 		return jsonify({'status':'success','name':library_name})
 	else:
 		return jsonify({'status':'error'})
