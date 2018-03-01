@@ -6,6 +6,7 @@ c.execute('''CREATE TABLE COMPANY
        (pl_id       TEXT    NOT NULL,
        pl           TEXT     NOT NULL,
        bookID       TEXT    NOT NULL,
+       bookname      TEXT    NOT NULL,
        fromID       TEXT    NOT NULL,
        time         TEXT    NOT NULL,
        zan          INT     NOT NULL,
