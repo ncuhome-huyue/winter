@@ -3,6 +3,7 @@ import re,time,json
 from sqlite3 import *
 import random
 from bs4 import BeautifulSoup
+import requests
 
 app = Flask(__name__)
 app.secret_key = '~\xc8\xc6\xe0\xf3,\x98O\xa8z4\xfb=\rNd'
