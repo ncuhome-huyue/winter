@@ -1,5 +1,5 @@
 from flask import Flask,jsonify,session,redirect,url_for,render_template,request
-import re,time
+import re,time,json
 from sqlite3 import *
 import random
 from bs4 import BeautifulSoup
@@ -77,17 +77,19 @@ def getyanzheng():
 
 @app.route('/api/login',methods=['POST'])
 def login():
+	a = request.get_data()
+	dict1 = json.loads(a)
 	s = requests.Session()
 	jar = requests.cookies.RequestsCookieJar()
 	jar.set('PHPSESSID',session.get('PHPSESSID'),domain='210.35.251.243',path='/')
 	loginurl = "http://210.35.251.243/reader/redr_verify.php"
-	payload = {"number":request.form.get('username'),"passwd":request.form.get('password'),"captcha":request.form.get('yanzheng'),"select":"cert_no","returnUrl":""}
+	payload = {"number":dict1.get('username'),"passwd":dict1.get('password'),"captcha":dict1.get('yanzheng'),"select":"cert_no","returnUrl":""}
 	login = s.post(loginurl , data = payload , cookies=jar)
 	napage = s.get("http://210.35.251.243/reader/redr_info.php", cookies=jar)
 	na = BeautifulSoup(napage.text,'lxml')
 	library_name = na.find("span",{"class":"profile-name"}).get_text()
 	if library_name is not None:
-		session['username'] = request.form.get('username')
+		session['username'] =dict1.get('username')
 		return jsonify({'status':'success','name':library_name})
 	else:
 		return jsonify({'status':'error'})
