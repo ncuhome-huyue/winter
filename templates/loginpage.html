@@ -221,7 +221,7 @@
     } catch (e) {
       oAjax = new ActiveXObject("Microsoft.XMLHTTP");
     };
-    oAjax.open('post', 'https://120.79.58.147/api/login', true);
+    oAjax.open('post', '/api/login', true);
     oAjax.setRequestHeader("Content-type", "application/json");
     oAjax.setRequestHeader("Token", "null");
     oAjax.send(final_data);
