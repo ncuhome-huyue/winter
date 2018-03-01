@@ -1,4 +1,4 @@
-from flask import Flask,jsonify,session,redirect,url_for,render_template,request
+from flask import Flask,jsonify,session,redirect,url_for,render_template,request,make_response
 import re,time,json
 from sqlite3 import *
 import random
@@ -7,7 +7,6 @@ import requests
 
 app = Flask(__name__)
 app.secret_key = '~\xc8\xc6\xe0\xf3,\x98O\xa8z4\xfb=\rNd'
-
 
 @app.route('/api/getpinglun/<string:bookID>')
 def getpinglun(bookID):
@@ -36,14 +35,14 @@ def postzancai():
 	if 'username' in session:
 		conn = connect('sql/zan_and_cai.db')
 		c = conn.cursor()
-		c.execute(r"SELECT kind FROM COMPANY WHERE pl_id = '%s' AND fromID = '%s';"%(request.form.get('pl_id'),session.get('username')))
+		c.execute(r"SELECT kind FROM COMPANY WHERE pl_id = '%s' AND fromID = '%s';"%(request.json('pl_id'),session.get('username')))
 		kind = c.fetchall()
 		if kind:
 			conn.close()
 			return jsonify({'state':'have'})
 		else:
 			post_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-			c.execute(r"INSERT INTO COMPANY VALUES ('%s','%s','%s','%s','%s')"%(request.form.get('pl_id'),request.form.get('kind'),request.form.get('book_id'),session.get('username'),post_time))
+			c.execute(r"INSERT INTO COMPANY VALUES ('%s','%s','%s','%s','%s')"%(request.json('pl_id'),request.json('kind'),request.json('book_id'),session.get('username'),post_time))
 			conn.commit()
 			conn.close()
 			return jsonify({'state':'success'})
@@ -73,34 +72,33 @@ def getyanzheng():
 	s = requests.Session()
 	picture = s.get("http://210.35.251.243/reader/captcha.php")
 	cookie = requests.utils.dict_from_cookiejar(s.cookies)['PHPSESSID']
-	session['PHPSESSID'] = cookie
-	return picture.content
+	resp = make_response(picture.content)
+	resp.set_cookie('PHPSESSID', cookie)
+	return resp
 
 @app.route('/api/login',methods=['POST'])
 def login():
-	a = request.get_data()
-	dict1 = json.loads(a)
-	s = requests.Session()
-	jar = requests.cookies.RequestsCookieJar()
-	jar.set('PHPSESSID',session.get('PHPSESSID'),domain='210.35.251.243',path='/')
-	loginurl = "http://210.35.251.243/reader/redr_verify.php"
-	payload = {"number":dict1.get('username'),"passwd":dict1.get('password'),"captcha":dict1.get('yanzheng'),"select":"cert_no","returnUrl":""}
-	login = s.post(loginurl , data = payload , cookies=jar)
-	napage = s.get("http://210.35.251.243/reader/redr_info.php", cookies=jar)
-	na = BeautifulSoup(napage.text,'lxml')
-	library_name = na.find("span",{"class":"profile-name"}).get_text()
-	if library_name is not None:
-		session['username'] =dict1.get('username')
-		return jsonify({'status':'success','name':library_name})
-	else:
-		return jsonify({'status':'error'})
+        s = requests.Session()
+        jar = requests.cookies.RequestsCookieJar()
+        jar.set('PHPSESSID',request.cookies.get('PHPSESSID'),domain='210.35.251.243',path='/')
+        loginurl = "http://210.35.251.243/reader/redr_verify.php"
+        payload = {"number":request.json['username'],"passwd":request.json['password'],"captcha":request.json["yanzheng"],"select":"cert_no","retrunUrl":""}
+        login = s.post(loginurl , data = payload , cookies=jar)
+        napage = s.get("http://210.35.251.243/reader/redr_info.php", cookies=jar)
+        na = BeautifulSoup(napage.text,'html.parser')
+        library_name = na.find("span",{"class":"profile-name"}).get_text()
+        if library_name is not None:
+                session['username'] = request.json['username']
+                return jsonify({'status':'success','name':library_name})
+        else:
+                return jsonify({'status':'error'})
 
 @app.route('/api/readnum')
 def readnum():
-	if 'PHPSESSID' in session：
+	if request.cookies.get('PHPSESSID'):
 		s = requests.Session()
 		jar = requests.cookies.RequestsCookieJar()
-		jar.set('PHPSESSID',session.get('PHPSESSID'),domain='210.35.251.243',path='/')
+		jar.set('PHPSESSID',request.cookies.get('PHPSESSID'),domain='210.35.251.243',path='/')
 		rnum = s.get('http://210.35.251.243/reader/book_hist.php',cookies=jar)
 		mess = BeautifulSoup(rnum.text,'lxml')
 		booknums = mess.find_all("td",{"bgcolor":"#FFFFFF","class":"whitetext","width":"5%"})
@@ -114,7 +112,7 @@ def readnum():
 
 @app.route('/api/getpercent')
 def getpercent():
-	if 'PHPSESSID' in session：
+	if request.cookies.get('PHPSESSID'):
 		s = requests.Session()
 		jar = requests.cookies.RequestsCookieJar()
 		jar.set('PHPSESSID',session.get('PHPSESSID'),domain='210.35.251.243',path='/')
@@ -122,16 +120,16 @@ def getpercent():
 		homepage = s.get(homeurl,cookies=jar)
 		pagemess = BeautifulSoup(homepage.text,'lxml')
 		percent = pagemess.find("h2",{"class":"h2"}).find("span",{"class":"Num"}).get_text()
-    		return jsonify({'percent':percent})
-    	else:
+		return jsonify({'percent':percent})
+	else:
     		return jsonify({'status':'error'})
 
 @app.route('/api/gettime')
 def gettime():
-	if 'PHPSESSID' in session：
+	if request.cookies.get('PHPSESSID'):
 		s = requests.Session()
 		jar = requests.cookies.RequestsCookieJar()
-		jar.set('PHPSESSID',session.get('PHPSESSID'),domain='210.35.251.243',path='/')
+		jar.set('PHPSESSID',request.cookies.get('PHPSESSID'),domain='210.35.251.243',path='/')
 		hisurl = "http://210.35.251.243/reader/book_lst.php"
 		hispage = s.get(hisurl,cookies=jar)
 		hismess = BeautifulSoup(hispage.text,'lxml')
@@ -165,11 +163,11 @@ def gettime():
 		return jsonify({'status':'error'})
 	
 @app.route('/api/getnowbook')
-def getnowbook()
-	if 'PHPSESSID' in session：
+def getnowbook():
+	if request.cookies.get('PHPSESSID'):
 		s = requests.Session()
 		jar = requests.cookies.RequestsCookieJar()
-		jar.set('PHPSESSID',session.get('PHPSESSID'),domain='210.35.251.243',path='/')
+		jar.set('PHPSESSID',request.cookies.get('PHPSESSID'),domain='210.35.251.243',path='/')
 		hisurl = "http://210.35.251.243/reader/book_lst.php"
 		hispage = s.get(hisurl,cookies=jar)
 		hismess = BeautifulSoup(hispage.text,'lxml')
@@ -193,6 +191,18 @@ def getnowbook()
 	else:
 		return jsonify({'status':'error'})
 
+@app.route('/api/getmycollection')
+def getmycollection():
+       if 'username' in session:
+              conn = connect('collection.db')
+              c = conn.cursor()
+              c.execute(r"SELECT bookname,bookID FROM COMPANY WHERE usernameID = '%s'"%(session.get('username')))
+              data = c.fetchall()
+              conn.close()
+              return jsonify({'data':data})
+       else:
+              return jsonify({'status':'error'})
+
 @app.route('/web/<string:web>')
 def index(web):
     return render_template(web)
@@ -209,7 +219,6 @@ def js(js):
 	f.open('js/' + js,"rb")
 	a = f.read()
 	f.close()
-	return a
-
 if __name__ == '__main__':
     app.run()
+
