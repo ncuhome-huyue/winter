@@ -28,6 +28,7 @@ conn = connect('collection.db')
 c = conn.cursor()
 c.execute('''CREATE TABLE COMPANY
        (bookID       TEXT    NOT NULL,
+       bookname      TEXT    NOT NULL,
        usernameID       TEXT    NOT NULL);''')
 conn.commit()
 conn.close()
