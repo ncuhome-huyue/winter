@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="yes" name="apple-touch-fullscreen">
+<meta content="telephone=no,email=no" name="format-detection">
+<script type="text/javascript" src="../static/flexible_css.debug.js"></script>
+<script type="text/javascript" src="../static/flexible.debug.js"></script>
+<style type="text/css">
+  html,body{
+    height: 100%;
+  }
+  *{
+    margin: 0;
+    padding: 0;
+  }
+  input{
+    border: none;
+    background-color: #f9f9f9;
+  }
+  .container{
+    position: relative;
+    top: 1.5rem;
+    width: 8rem;
+    height:13.36rem ;
+    background-color: #f9f9f9;
+    margin: 0 auto;
+  }
+  .logo{
+    position: absolute;
+    left:3rem ;
+    top: 1.627rem;
+
+  }
+  .logo_pic{
+    width:2rem ;
+    height: 1.7rem;
+  }
+  .login_union{
+    position: absolute;
+    bottom: 4rem;
+  }
+  .font{
+    color: #dadbdb;
+    size: 0.8rem;
+  }
+  .password_input{
+    left: 0.98rem;
+    position: relative;
+    top: 0.9rem;
+  }
+  .username_input{
+    position: relative;
+    left: 0.98rem;
+  }
+  .bottom_pic{
+    position: relative;
+    width:10rem ;
+    height:1.76rem;
+    bottom: -2.65rem;
+  }
+
+  .login_button{
+    left: 2.01rem;
+    position: relative;
+    text-align: center;
+    border: 0.04rem solid #76d1b2;
+    width: 3.81rem;
+    height: 1.14rem;
+    top: 1.5rem;
+  }
+  .button_font{
+    font-size: 0.56rem;
+    position: relative;
+    top: 0.13rem;
+    text-align: center;
+    color: #76d1b4;
+  }
+  .lose_password_font{
+    position: relative;
+    font-size: 0.32rem;
+    color: #dadbdb;
+    left: 3.3rem;
+    bottom: -1.75rem;
+  }
+  .yanzheng{
+    width: 1rem;
+    height: 0.5rem;
+  }
+  .fontn{
+    font-size: 0.5rem;
+    position: absolute;
+    left: 1.5rem;
+    top: 0.387rem;
+    color: #76d1b2;
+  }
+  .hidden_area{
+    display: none;
+    position: absolute;
+    height: 3.42rem;
+    width: 5.86rem;
+    left: 1.07rem;
+    background-color: white;
+    top: -2.5rem;
+  }
+  .hrn{
+    position: absolute;
+    left: 0.906rem;
+  }
+  .yanzheng{
+    position: absolute;
+    right: 0.3rem;
+  }
+  .move1{
+    position: absolute;
+    top:2rem;
+  }
+  .move2{
+    top: 1.5rem;
+  }
+  .determine_button{
+    width: 1.1rem;
+    height: 0.56rem;
+    border-radius:0.1rem ;
+    border:0.03rem #76d1b2 solid ;
+    position: absolute;
+    text-align: center;
+    left: 2.3rem;
+    bottom: 0.36rem;
+  }
+  .fontn1{
+    color: #76d1b2;
+    font-size: 0.35rem;
+
+  }
+  .check_yanzheng{
+    position: absolute;
+    background-color: white;
+    top: 1.6rem;
+    left: 1rem;
+  }
+</style>
+<body>
+<div class="container">
+  <div class="logo">
+    <img class="logo_pic" src="../img/logo.png">
+  </div>
+  <div class="login_union">
+    <div class="username_input">
+      <div>
+        <span class="username_font font">学号</span>
+        <input  type="username" class="username">
+      </div>
+      <hr class="username_hr" size="1" width="130%" color="#dddcdc">
+    </div>
+    <div class="password_input">
+      <div>
+        <span class="password_font font">密码</span>
+        <input class="password">
+      </div>
+      <hr class="password_hr" size="1" width="130%" color="#dddcdc">
+    </div>
+    <div class="login_button">
+      <span class="button_font">登录</span>
+    </div>
+      <span class="lose_password_font">忘记密码</span>
+    <div class="hidden_area">
+      <span class="fontn">请输入验证码</span>
+      <input class="check_yanzheng">
+      <hr class="hrn move1" size="2" color="#76d1b2" width="60%">
+      <img class="yanzheng move2" src="http://120.79.58.147/api/getyanzheng">
+      <div class="determine_button">
+        <span class="fontn1">确定</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+<img class="bottom_pic" src="../img/bottom_pic.png">
+<script>
+
+  var determine_button=document.getElementsByClassName('determine_button')[0];
+  var login_button=document.getElementsByClassName("login_button")[0];
+  var username_input=document.getElementsByClassName("username")[0];
+  var password_input=document.getElementsByClassName("password")[0];
+  username_input.onclick=function () {
+    var username=document.getElementsByClassName("username_hr")[0];
+    username.color='#76d1b2';
+  };
+
+  password_input.onclick=function () {
+    var password=document.getElementsByClassName("password_hr")[0];
+    password.color='#76d1b2'
+  };
+
+
+  login_button.onclick=function () {
+    var hidden_area=document.getElementsByClassName("hidden_area")[0];
+    hidden_area.style.display='block';
+
+  };
+
+  determine_button.onclick=function () {
+    alert("lll");
+    var verification_code = document.getElementsByClassName('check_yanzheng')[0].value;
+    var username = document.getElementsByClassName('username')[0].value;
+    var password = document.getElementsByClassName('password')[0].value;
+    var data = {
+      "username": username,
+      "password": password,
+      "yanzheng": verification_code
+    };
+    var final_data = JSON.stringify(data);
+    alert(final_data);
+    var oAjax = null;
+    try {
+      oAjax = new XMLHttpRequest();
+    } catch (e) {
+      oAjax = new ActiveXObject("Microsoft.XMLHTTP");
+    };
+    oAjax.open('post', 'https://120.79.58.147/api/login', true);
+    oAjax.setRequestHeader("Content-type", "application/json");
+    oAjax.setRequestHeader("Token", "null");
+    oAjax.send(final_data);
+    oAjax.onreadystatechange = function () {
+      if (oAjax.readyState == 4) {
+        var data = oAjax.responseText;
+        alert(data);
+      }
+    }
+  }
+
+</script>
+</body>
+</html>
