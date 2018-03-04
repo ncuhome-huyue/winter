@@ -8,6 +8,103 @@ import requests
 app = Flask(__name__)
 app.secret_key = '~\xc8\xc6\xe0\xf3,\x98O\xa8z4\xfb=\rNd'
 
+@app.route('/api/getbook',methods=['POST'])
+def search(word,school,page_num,bo_ok_num):
+    school_num = {'前湖校区':'01','前湖医学':'06','所有校区':'ALL','青山湖北区':'03','青山湖南区':'05','东湖校区':'02','院系资料室':'07','总管':'00'}
+    num_ber = school_num[request.json('school')]
+    page_url = 'http://210.35.251.243/opac/openlink.php'
+    params_l = {
+                'dept':num_ber,
+                'title':request.json('word'),
+                'doctype':'ALL',
+                'lang_code':'ALL',
+                'match_flag':'forward',
+                'displaypg':'20',
+                'showmode':'list',
+                'orderby':'DESC',
+                'sort':'CATA_DATE',
+                'onlylendable':'no',
+                'count':request.json('bo_ok_num'),
+                'with_ebook':'on',
+                'page':request.json('page_num'),
+                }
+    soup = requests.get( page_url , params = params_l )
+    page_L_result = BeautifulSoup(soup.text,'lxml')
+    titles_L = page_L_result.select('#search_book_list > li > h3')
+    kejies_L = page_L_result.select('#search_book_list > li > p > span')
+    booknums_L = page_L_result.select('strong.red')[0].get_text()
+    z_L = []
+    for ke_L in kejies_L:
+        l = []
+        all_m = ke_L.get_text(strip = True)
+        sp = all_m.split('：')
+        sp2 = sp[1].split('可')[0]
+        left = sp[2] + '/' + sp2
+        if int(sp[2]) != 0:
+            whe = '可借'
+        else:
+            whe = '无书'
+        l.append(left)
+        l.append(whe)
+        z_L.append(l)
+    names_TPS_L = []
+    for t in titles_L:
+        name_TP = []
+        all_t = t.get_text()
+        split_title = all_t.split('.',1)[-1]
+        book_name = split_title.split()
+        nx = 0
+        fi_book_na = ''
+        while nx <= (len(book_name)-2):
+            fi_book_na = fi_book_na + book_name[nx]
+            nx =nx + 1
+        name_TP.append(fi_book_na)
+        name_TP.append(book_name[-1])
+        names_TPS_L.append(name_TP)
+    all_messages_book_L = []
+    nnu = 0
+    while nnu <= (len(names_TPS_L)-1):
+        ms_book = []
+        ms_book.append(names_TPS_L[nnu][0])
+        ms_book.append(names_TPS_L[nnu][1])
+        ms_book.append(z_L[nnu][0])
+        ms_book.append(z_L[nnu][1])
+        all_messages_book_L.append(ms_book)
+        nnu = nnu + 1
+    return jsonify({'data':all_messages_book_L})
+
+@app.route('/api/postzancai',methods=['POST'])
+def postzancai():
+	if 'username' in session:
+		conn = connect('sql/zan_and_cai.db')
+		c = conn.cursor()
+		c.execute(r"SELECT kind FROM COMPANY WHERE pl_id = '%s' AND fromID = '%s';"%(request.json('pl_id'),session.get('username')))
+		kind = c.fetchall()
+		if kind:
+			conn.close()
+			return jsonify({'state':'have'})
+		else:
+			post_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+			c.execute(r"INSERT INTO COMPANY VALUES ('%s','%s','%s','%s','%s')"%(request.json('pl_id'),request.json('kind'),request.json('book_id'),session.get('username'),post_time))
+			conn.commit()
+			conn.close()
+			return jsonify({'state':'success'})
+	else:
+		return jsonify({'state':'error'})
+	
+@app.route('/api/postpinglun',methods=['POST'])
+def postzancai():
+	if 'username' in session:
+		conn = connect('sql/pinglun.db')
+		c = conn.cursor()
+		post_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+		c.execute(r"INSERT INTO COMPANY VALUES ('%d','%s','%s','%s','%s',%d,%d)"%(time.time(),request.json('pl'),request.json('book_id'),session.get('username'),post_time,0,0))
+		conn.commit()
+		conn.close()
+		return jsonify({'state':'success'})
+	else:
+		return jsonify({'state':'error'})
+
 @app.route('/api/getpinglun/<string:bookID>')
 def getpinglun(bookID):
 	if 'username' in session:
