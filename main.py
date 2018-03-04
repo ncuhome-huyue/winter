@@ -207,6 +207,31 @@ def readnum():
 	else:
     		return jsonify({'status':'error'})
 
+@app.route('/api/getrecommend',methods=['POST'])
+def getrecommend():
+	if request.cookies.get('PHPSESSID'):
+		s = requests.Session()
+		jar = requests.cookies.RequestsCookieJar()
+		jar.set('PHPSESSID',request.cookies.get('PHPSESSID'),domain='210.35.251.243',path='/')
+		recommend_url = 'http://210.35.251.243/reader/asord_lst.php'
+		recommend = s.get(recommend_url,cookies=jar)
+		soup = BeautifulSoup(recommend.text,'lxml')
+		titles = soup.select('#mylib_content > h2 > span')
+		if titles[0].get_text() != ' (当前有0条)':
+			content = soup.select('#mylib_content > table > .whitetext')
+			recommend_list_all = []
+			for x in content:
+    				a = []
+    				recommend_list = x.select('td')
+    				for y in recommend_list:
+        				a.append(y.get_text())
+    				recommend_list_all.append(a)
+			return jsonify({'data':recommend_list_all})
+		else:
+			return jsonify({'data':[]})
+	else:
+		return jsonify({'status':'error'})
+
 @app.route('/api/getpercent')
 def getpercent():
 	if request.cookies.get('PHPSESSID'):
