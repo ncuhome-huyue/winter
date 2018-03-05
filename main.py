@@ -158,6 +158,16 @@ def getpinglun(bookID):
 	else:
 		return jsonify({'state':'error'})
 
+#获取浏览榜单API
+@app.route('/api/getbangdan_read')
+def bangdan_read():
+	conn = connect('sql/read.db')
+	c = conn.cursor()
+	c.execute(r"SELECT * FROM COMPANY ORDER BY count DESC LIMIT 10;")
+	bangdan_read = c.fetchall()
+	conn.close()
+	return jsonify({'bangdan_read':bangdan_read})
+
 #获取收藏榜单API
 @app.route('/api/getbangdan_collection')
 def bangdan_collection():
