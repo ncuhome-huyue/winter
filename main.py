@@ -348,6 +348,15 @@ def getmycollection():
        else:
               return jsonify({'status':'error'})
 
+#通过链接爬取ISBN
+@app.route('/api/getisbn',methods=['POST'])
+def get():
+	s = requests.Session()
+	content = s.get(request.json('url'))
+	soup = BeautifulSoup(content.text,'lxml')
+	isbn = soup.select('#item_detail > dl')[3].select('dd')
+	return jsonify({'isbn':isbn})
+
 @app.route('/web/<string:web>')
 def index(web):
     return render_template(web)
