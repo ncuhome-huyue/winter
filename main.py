@@ -4,9 +4,11 @@ from sqlite3 import *
 import random
 from bs4 import BeautifulSoup
 import requests
+from flask_cors import CORS
 
 app = Flask(__name__)
 app.secret_key = '~\xc8\xc6\xe0\xf3,\x98O\xa8z4\xfb=\rNd'
+CORS(app,resources={r"/api/*": {"origins": "*"}})
 
 #搜索API
 @app.route('/api/getbook',methods=['POST'])
