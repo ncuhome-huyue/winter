@@ -186,6 +186,7 @@ def getyanzheng():
 	cookie = requests.utils.dict_from_cookiejar(s.cookies)['PHPSESSID']
 	resp = make_response(picture.content)
 	resp.set_cookie('PHPSESSID', cookie)
+	resp.set_cookie('PHPSESSID', cookie, path='/', domain='210.35.251.243')
 	return resp
 
 #登录API
