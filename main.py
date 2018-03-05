@@ -8,6 +8,7 @@ import requests
 app = Flask(__name__)
 app.secret_key = '~\xc8\xc6\xe0\xf3,\x98O\xa8z4\xfb=\rNd'
 
+#搜索API
 @app.route('/api/getbook',methods=['POST'])
 def search(word,school,page_num,bo_ok_num):
     school_num = {'前湖校区':'01','前湖医学':'06','所有校区':'ALL','青山湖北区':'03','青山湖南区':'05','东湖校区':'02','院系资料室':'07','总管':'00'}
@@ -73,6 +74,34 @@ def search(word,school,page_num,bo_ok_num):
         nnu = nnu + 1
     return jsonify({'data':all_messages_book_L})
 
+#获取逾期
+@app.route('/api/getyuqi')
+def getyuqi():
+	if request.cookies.get('PHPSESSID'):
+		s = requests.Session()
+		jar = requests.cookies.RequestsCookieJar()
+		jar.set('PHPSESSID',request.cookies.get('PHPSESSID'),domain='210.35.251.243',path='/')
+		loginurl = "http://210.35.251.243/reader/redr_verify.php"
+		payload = {"number":num,"passwd":pawd,"captcha":cap,"select":"cert_no","returnUrl":""}
+		login = s.post(loginurl , data = payload)
+		recommend_url = 'http://210.35.251.243/reader/fine_pec.php'
+		recommend = s.get(recommend_url)
+		soup = BeautifulSoup(recommend.text,'lxml')
+		titles = soup.select('#mylib_content > table > tr')
+		list_all = []
+		if titles:
+    		for x in titles:
+        		a = []
+        		line = x.select('td')
+        		for y in line:
+            		a.append(y.get_text())
+        		list_all.append(a)
+    		list_all.pop(0)
+		return jsonify({'data':list_all})
+	else:
+		return jsonify({'status':'error'})
+
+#发表点赞API
 @app.route('/api/postzancai',methods=['POST'])
 def postzancai():
 	if 'username' in session:
@@ -91,7 +120,8 @@ def postzancai():
 			return jsonify({'state':'success'})
 	else:
 		return jsonify({'state':'error'})
-	
+
+#发表评论API
 @app.route('/api/postpinglun',methods=['POST'])
 def postzancai():
 	if 'username' in session:
@@ -105,6 +135,7 @@ def postzancai():
 	else:
 		return jsonify({'state':'error'})
 
+#获取评论API
 @app.route('/api/getpinglun/<string:bookID>')
 def getpinglun(bookID):
 	if 'username' in session:
@@ -127,25 +158,7 @@ def getpinglun(bookID):
 	else:
 		return jsonify({'state':'error'})
 
-@app.route('/api/postzancai',methods=['POST'])
-def postzancai():
-	if 'username' in session:
-		conn = connect('sql/zan_and_cai.db')
-		c = conn.cursor()
-		c.execute(r"SELECT kind FROM COMPANY WHERE pl_id = '%s' AND fromID = '%s';"%(request.json('pl_id'),session.get('username')))
-		kind = c.fetchall()
-		if kind:
-			conn.close()
-			return jsonify({'state':'have'})
-		else:
-			post_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-			c.execute(r"INSERT INTO COMPANY VALUES ('%s','%s','%s','%s','%s')"%(request.json('pl_id'),request.json('kind'),request.json('book_id'),session.get('username'),post_time))
-			conn.commit()
-			conn.close()
-			return jsonify({'state':'success'})
-	else:
-		return jsonify({'state':'error'})
-
+#获取收藏榜单API
 @app.route('/api/getbangdan_collection')
 def bangdan_collection():
 	conn = connect('sql/collection.db')
@@ -155,6 +168,7 @@ def bangdan_collection():
 	conn.close()
 	return jsonify({'bangdan_collection':bangdan_c})
 
+#获取评论榜单API
 @app.route('/api/getbangdan_pinglun')
 def bangdan_pinglun():
 	conn = connect('sql/pinglun.db')
@@ -164,6 +178,7 @@ def bangdan_pinglun():
 	conn.close()
 	return jsonify({'bangdan_collection':bangdan_c})
 
+#获取验证码图片API
 @app.route('/api/getyanzheng')
 def getyanzheng():
 	s = requests.Session()
@@ -173,6 +188,7 @@ def getyanzheng():
 	resp.set_cookie('PHPSESSID', cookie)
 	return resp
 
+#登录API
 @app.route('/api/login',methods=['POST'])
 def login():
         s = requests.Session()
@@ -190,6 +206,7 @@ def login():
         else:
                 return jsonify({'status':'error'})
 
+#获取总阅API
 @app.route('/api/readnum')
 def readnum():
 	if request.cookies.get('PHPSESSID'):
@@ -207,6 +224,7 @@ def readnum():
 	else:
     		return jsonify({'status':'error'})
 
+#获取荐购API
 @app.route('/api/getrecommend',methods=['POST'])
 def getrecommend():
 	if request.cookies.get('PHPSESSID'):
@@ -232,6 +250,7 @@ def getrecommend():
 	else:
 		return jsonify({'status':'error'})
 
+#获取超越人数API
 @app.route('/api/getpercent')
 def getpercent():
 	if request.cookies.get('PHPSESSID'):
@@ -246,6 +265,7 @@ def getpercent():
 	else:
     		return jsonify({'status':'error'})
 
+#获取倒计时API
 @app.route('/api/gettime')
 def gettime():
 	if request.cookies.get('PHPSESSID'):
@@ -283,7 +303,8 @@ def gettime():
 			return jsonify({'time':None})
 	else:
 		return jsonify({'status':'error'})
-	
+
+#获取当前借书API
 @app.route('/api/getnowbook')
 def getnowbook():
 	if request.cookies.get('PHPSESSID'):
@@ -313,6 +334,7 @@ def getnowbook():
 	else:
 		return jsonify({'status':'error'})
 
+#获取我的收藏
 @app.route('/api/getmycollection')
 def getmycollection():
        if 'username' in session:
