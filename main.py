@@ -354,8 +354,20 @@ def get():
 	s = requests.Session()
 	content = s.get(request.json('url'))
 	soup = BeautifulSoup(content.text,'lxml')
+	name = soup.select('#item_detail > dl')[0].select('dd')
 	isbn = soup.select('#item_detail > dl')[3].select('dd')
-	return jsonify({'isbn':isbn})
+	conn = connect('read.db')
+	c = conn.cursor()
+	c.execute(r"SELECT count FROM COMPANY WHERE bookname = '%s';"%(name[0].get_text().split('/')[0]))
+	count = c.fetchone()
+	if count:
+		count[0] += 1
+		c.execute(r"UPDATE COMPANY SET count = %d WHERE bookname = '%s';"%(count[0],name[0].get_text().split('/')[0]))
+	else:
+		c.execute(r"INSERT INTO COMPANY VALUES ();"%(isbn[0].get_text().split('/')[0],name[0].get_text().split('/')[0],count[0]))
+	conn.commit()
+	conn.close()
+	return jsonify({'isbn':isbn[0].get_text().split('/')[0]})
 
 @app.route('/web/<string:web>')
 def index(web):
