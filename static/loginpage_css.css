@@ -1,0 +1,193 @@
+
+html,body{
+height: 100%;
+}
+
+
+*{
+  margin: 0;
+  padding: 0;
+}
+
+
+input{
+  border: none;
+  background-color: #f9f9f9;
+}
+
+
+.container{
+  position: relative;
+  top: 1.5rem;
+  width: 8rem;
+  height:13.36rem ;
+  background-color: #f9f9f9;
+  margin: 0 auto;
+}
+
+
+.logo{
+  position: absolute;
+  left:3rem ;
+  top: 1.627rem;
+}
+
+
+.logo_pic{
+  width:2rem ;
+  height: 1.7rem;
+}
+
+
+.login_union{
+  position: absolute;
+  bottom: 4rem;
+}
+
+
+.font{
+  color: #dadbdb;
+  size: 0.8rem;
+}
+
+
+.password_input{
+  left: 0.98rem;
+  position: relative;
+  top: 0.9rem;
+}
+
+
+.username_input{
+  position: relative;
+  left: 0.98rem;
+}
+
+
+.bottom_pic{
+  position: relative;
+  width:10rem ;
+  height:1.76rem;
+  bottom: -2.65rem;
+}
+
+
+.login_button{
+  left: 2.01rem;
+  position: relative;
+  text-align: center;
+  border: 0.04rem solid #76d1b2;
+  width: 3.81rem;
+  height: 1.14rem;
+  top: 1.5rem;
+}
+
+
+.button_font{
+  font-size: 0.56rem;
+  position: relative;
+  top: 0.13rem;
+  text-align: center;
+  color: #76d1b4;
+}
+
+
+.lose_password_font{
+  position: relative;
+  font-size: 0.32rem;
+  color: #dadbdb;
+  left: 3.3rem;
+  bottom: -1.75rem;
+}
+
+
+.yanzheng{
+  width: 1rem;
+  height: 0.5rem;
+}
+
+
+.fontn{
+  font-size: 0.5rem;
+  position: absolute;
+  left: 1.5rem;
+  top: 0.387rem;
+  color: #76d1b2;
+}
+
+
+.hidden_area{
+  display: none;
+  position: absolute;
+  height: 3.42rem;
+  width: 5.86rem;
+  left: 1.07rem;
+  background-color: white;
+  top: -2.5rem;
+}
+
+
+.hrn{
+  position: absolute;
+  left: 0.906rem;
+}
+
+
+.yanzheng{
+  position: absolute;
+  right: 0.3rem;
+}
+
+
+.move1{
+  position: absolute;
+  top:2rem;
+}
+
+
+.move2{
+  top: 1.5rem;
+}
+
+
+.determine_button{
+  width: 1.1rem;
+  height: 0.56rem;
+  border-radius:0.1rem ;
+  border:0.03rem #76d1b2 solid ;
+  position: absolute;
+  text-align: center;
+  left: 2.3rem;
+  bottom: 0.36rem;
+}
+
+
+.fontn1{
+  color: #76d1b2;
+  font-size: 0.35rem;
+
+}
+
+.fontn2{
+  position: absolute;
+  left: 0.4rem;
+  bottom: 0.9rem;
+  font-size: 0.4rem;
+  color: #76d1b2;
+}
+
+
+.fontn3{
+   position: absolute;
+  color: #76d1b2;
+  left: 2rem;
+  font-size: 0.45rem;
+  top: 0.38rem;
+}
+
+.check_yanzheng{
+  position: absolute;
+  background-color: white;
+  top: 1.6rem;
+  left: 1rem;
+}

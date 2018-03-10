@@ -1,0 +1,81 @@
+body,html{
+background-color: #f1f1f1;
+}
+
+
+*{
+  margin: 0;
+  border: 0;
+}
+
+
+.nav_img{
+  position: absolute;
+  top: 0.4rem;
+  left: 0.426667rem;
+  width: 0.22667rem;
+  height:0.4rem ;
+}
+
+
+.nav {
+  background-color: white;
+  position: relative;
+  width: 10rem;
+  height:1.17333rem;
+}
+
+
+.nav_font{
+  position: absolute;
+  font-size: 0.4rem;
+  top: 0.35rem;
+  left: 1.2rem;
+  color: rgb(118,209,178);
+}
+
+
+.div{
+  width: 10rem;
+  height: 8.888rem;
+}
+
+
+.container{
+  position: relative;
+
+}
+
+
+.title{
+  position: absolute;
+  font-size: 0.533333rem;
+  left: 0.426667rem;
+  top: 0.72rem;
+}
+
+
+.img1{
+  position: absolute;
+  left: 0.426667rem;
+  top: 1.8rem;
+  width: 0.52rem;
+  height: 0.52rem;
+}
+
+
+.logo_font{
+  position: absolute;
+  color: rgba(0,0,0,0.5);
+  font-size: 0.38rem;
+  top: 1.8rem;
+  left: 1.2rem;
+}
+
+
+.answer{
+  position: absolute;
+  top: 3rem;
+  font-size: 0.426667rem;
+  color:rgba(0,0,0,0.85) ;
+}

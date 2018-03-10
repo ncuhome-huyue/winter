@@ -1,0 +1,61 @@
+*{
+margin: 0;
+  border: 0;
+}
+
+
+.nav_img{
+  position: absolute;
+  top: 0.4rem;
+  left: 0.426667rem;
+  width: 0.22667rem;
+  height:0.4rem ;
+}
+
+
+.nav {
+  position: relative;
+  width: 10rem;
+  height:1.17333rem;
+}
+
+
+.nav_font{
+  position: absolute;
+  font-size: 0.4rem;
+  top: 0.35rem;
+  left: 1.2rem;
+  color: rgb(118,209,178);
+}
+
+
+.block{
+  width: 10rem;
+  background-color: #f1f1f1;
+  height: 0.4266667rem;
+}
+
+
+.container{
+  position: relative;
+  height: 1.24rem;
+  width: 10rem;
+  border-bottom: 0.01rem solid rgba(0,0,0,0.15);
+}
+
+
+.font{
+  position: absolute;
+  font-size: 0.45rem;
+  left: 0.426667rem;
+  top: 0.3rem;
+  color: black!important;
+}
+
+
+.img1{
+  right: 0.426667rem;
+  width: 0.22667rem;
+  position: absolute;
+  top: 0.426667rem;
+}

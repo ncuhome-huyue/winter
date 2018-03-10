@@ -1,0 +1,203 @@
+
+html,body{
+background-color:#f1f1f1 ;
+ }
+
+
+.font{
+  position: absolute;
+  top:0.31rem;
+  font-size: 0.48rem;
+  color: #76d1b2;
+}
+
+
+.search{
+  left:0.507777rem ;
+}
+
+
+.homepage{
+  left: 4.52rem;
+}
+
+
+.list{
+  right: 0.5077777rem;
+}
+
+
+.navigation_bar{
+  width: 10rem;
+  height: 1.173333rem;
+  background-color: white;
+}
+
+
+.middle{
+  width: 8.8rem;
+  height: 4.8rem;
+  background-color: white;
+  position: relative;
+  top: 1.34rem;
+  left:0.6rem ;
+  border-radius: 0.267777rem;
+}
+
+
+.head_portrait{
+  position: absolute;
+  top:0.72rem ;
+  left: 0.453333rem;
+  height: 1.86777rem;
+  width: 1.86777rem;
+  border-radius: 50%;
+  background-color: #00aeef;
+  border: 0.12rem solid #a3e4ce;
+  text-align: center;
+}
+
+
+.head_portrait_font{
+  position: relative;
+  font-size:0.5rem ;
+  color: white;
+  top:0.5rem ;
+}
+
+
+.name{
+  font-size: 0.4533333rem;
+  position: absolute;
+  top:0.72rem ;
+  left:6.653333rem ;
+}
+
+
+.message{
+  font-size: 0.4rem;
+  position: absolute;
+  top: 2.1rem;
+  right: 0.75rem;
+}
+
+
+.hr{
+  position: absolute;
+  z-index: 2;
+  top: 3.18rem;
+}
+
+
+.font1,.font2{
+  position: absolute;
+}
+
+
+.font1{
+  bottom: 1rem;
+  font-size: 0.4rem;
+  color:#dadbdb ;
+}
+
+
+.font2{
+  bottom: 0.42rem;
+  font-size: 0.48rem;
+
+}
+
+
+.count_down{
+  left:0.906667rem ;
+}
+
+
+.total{
+  left: 4rem;
+}
+
+
+.transcend{
+  right:1.09333rem ;
+}
+
+
+.count_down_data{
+  left: 1.1rem;
+}
+
+
+.total_data{
+  left: 4rem;
+}
+
+
+.transcend_data{
+  right: 1.5rem;
+}
+
+
+.bottom{
+  position: relative;
+  left: 0.6rem;
+  top: 3rem;
+  width: 8.8rem;
+  height: 6rem;
+  background-color: white;
+  border-radius: 0.267777rem;
+}
+
+
+.current_subscriptions{
+  position: absolute;
+  top:0.2rem ;
+  left: 3.17333rem;
+  font-size: 0.65rem;
+}
+
+
+.font3{
+  position: absolute;
+  top: 1.8rem; ;
+  font-size: 0.45rem;
+}
+
+
+.book_name{
+  left: 0.86667rem;
+}
+
+
+.deadtime{
+  left: 3rem;
+}
+
+
+.operation{
+  right: 0.866667rem;
+}
+
+.final_container{
+  position: relative;
+  display: inline-block;
+  width: 10rem;
+}
+.book_name_data{
+  display: inline-block;
+  text-align: center;
+  width: 3.5rem;
+  font-size: 0.4rem;
+}
+.deadtime_time{
+  display: inline-block;
+  text-align: center;
+  width: 3rem;
+  font-size: 0.4rem;
+}
+.operation_data{
+   display: inline-block;
+  text-align: center;
+  width: 3rem;
+  font-size: 0.4rem;
+}
