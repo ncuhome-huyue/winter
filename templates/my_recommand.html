@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="yes" name="apple-touch-fullscreen">
+<meta content="telephone=no,email=no" name="format-detection">
+<script type="text/javascript" src="../static/flexible_css.debug.js"></script>
+<script type="text/javascript" src="../static/flexible.debug.js"></script>
+<link rel="stylesheet" type="text/css" href="../static/answer_css.css">
+<style type="text/css">
+  html,body{
+    margin: 0;
+    border: 0;
+    background-color: #f1f1f1;
+  }
+  .list{
+    position: relative;
+    height: 1.966666rem;
+    width: 10rem;
+    background-color: white;
+  }
+  .book_name{
+    position: absolute;
+    left: 0.42rem;
+    top: 0.42rem;
+    font-size: 0.5rem;
+  }
+  .over_due{
+    position: absolute;
+    left: 0.42rem;
+    bottom: 0.3rem;
+    font-size: 0.32rem;
+    color: rgba(0,0,0,0.7);
+  }
+
+
+  .state{
+    position: absolute;
+    bottom: 0rem;
+    right: -7rem;
+    font-size: 0.32rem;
+  }
+  .container{
+    position: relative;
+    height: 13rem;
+  }
+  .date{
+    position: absolute;
+    font-size: 0.32rem;
+    color: rgba(0,0,0,0.75);
+    left: 0.42rem;
+    bottom: 0.35rem;
+  }
+  .book_auoth{
+    font-size: 0.4rem;
+    position: absolute;
+    right: 0.4rem;
+    top:  0.5rem;
+  }
+
+</style>
+<body>
+<div class="nav">
+  <a href="homepage.html"><img class="nav_img" src="../img/problem_1.png"></a>
+  <a href="homepage.html"></a><span class="nav_font">我的荐购</span></a>
+</div>
+<div class="container">
+
+</div>
+</body>
+<script>
+var oAjax0 = null;
+try {
+  oAjax0 = new XMLHttpRequest();
+} catch (e) {
+  oAjax0 = new ActiveXObject("Microsoft.XMLHTTP");
+};
+oAjax0.open('get','/api/getrecommend', true);
+oAjax0.setRequestHeader("Content-type", "application/json");
+oAjax0.send(null);
+oAjax0.onreadystatechange = function () {
+  if (oAjax0.readyState === 4) {
+
+    var list = document.getElementsByClassName("container")[0];
+    var jud_color=document.getElementsByClassName('state');
+    var data = oAjax0.responseText;
+    var finally_data = eval("(" + data + ")");
+
+    if (finally_data.data.length===0) {
+      window.location.href='no_rem.html'
+    };
+    for (var i=0;i<finally_data.data.length;i++){
+      list.innerHTML+='<div class="list">'+'<div class="book_name"> '+finally_data.data[i][0]+'</div>'+'<div class="book_auoth">'+finally_data.data[i][1]+ '</div>'+ '<div class="date">'+finally_data.data[i][3]+'<div class="state"> '+finally_data.data[i][4]+'</div>';
+      var clist=document.getElementsByClassName("list");
+      clist[i].style.top=(i+1)*0.42666+'rem';
+
+      if (finally_data.data[i][4]==='已处理'){
+        jud_color[i].style.color='rgba(2,199,132,0.7)'
+      }
+
+      else {
+        jud_color[i].style.color='rgba(255,192,23,0.7)'
+      }
+
+    }
+  }
+};
+
+
+</script>
+</html>

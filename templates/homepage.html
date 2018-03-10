@@ -17,35 +17,256 @@
     margin: 0;
     border: 0;
   }
+  span{
+    display: inline;
+  }
   .photo1{
-    width: 0.22rem;
-    height: 0.4rem;
+    position: absolute;
+    top: 0.426667rem;
+    left: 0.426667rem;
+    width: 0.264rem;
+    height: 0.48rem;
   }
   .navigation_bar{
+    position: relative;
     width: 10rem;
-    height: 5rem;
-    background-color: #00aeef;
+    height: 5.5rem;
+    background-image: url("../img/mypage_1.png");
+    background-size: 10rem 5.5rem;
   }
-
+  .font1{
+    position: absolute;
+    font-size: 0.4rem;
+    color: white;
+    top: 0.42667rem;
+    left: 1.0rem;
+  }
+  .head_portrait{
+    position: absolute;
+    height: 2rem;
+    width: 2rem;
+    border-radius: 50%;
+    border: 0.18rem solid rgb(163,228,206) ;
+    background-color:#00aeef;
+    left: 3.7566rem;
+    top: 1.2rem;
+    text-align: center;
+  }
+  .name{
+    position: relative;
+    top: 0.65rem;
+    font-size: 0.5333rem;
+    color: white;
+  }
+  .move_name{
+    width: 10rem;
+    text-align: center;
+  }
+  .total_name{
+    position: relative;
+    color: white;
+    font-size: 0.5333rem;
+    top: 3.8rem;
+  }
+  .my_situation{
+    position: relative;
+    top: 0.35rem;
+    display: inline-block;
+    vertical-align: top;
+    height: 1.73333rem;
+    width: 10rem;
+  }
+  .total_read{
+    display: inline-block;
+    position: relative;
+    top: 0;
+    height: 1.733333rem;
+    width: 3.2rem;
+    text-align: center;
+    border-right: 0.04rem solid rgba(0,0,0,0.1);
+  }
+  .total_read_font{
+    position: absolute;
+    top: 0.81rem;
+    font-size:0.4rem ;
+    left: 0.8rem;
+    color: rgba(0,0,0,0.6);
+  }
+  .total_read_data{
+    position: absolute;
+    font-size: 0.8rem;
+    color: rgba(0,0,0,0.85);
+    left: 1rem;
+  }
+  .my_collection{
+    display: inline-block;
+    position: relative;
+    height: 1.733333rem;
+    width: 3.2rem;
+    top: 0rem;
+    text-align: center;
+    border-right: 0.04rem solid rgba(0,0,0,0.1);
+    bottom: 0.45rem;
+  }
+  .my_collection_font{
+    position: absolute;
+    font-size:0.4rem ;
+    top: 0.81rem;
+    left: 0.8rem;
+    color: rgba(0,0,0,0.6);
+  }
+  .my_collection_data{
+    position: absolute;
+    font-size: 0.8rem;
+    color: rgba(0,0,0,0.85);
+  }
+  .my_comments{
+    display: inline-block;
+    position: relative;
+    height: 1.733333rem;
+    width: 3.3rem;
+    text-align: center;
+  }
+  .my_comments_font{
+    position: absolute;
+    font-size:0.4rem ;
+    top: 0.81rem;
+    left: 0.8rem;
+    color: rgba(0,0,0,0.6);
+  }
+  .my_comments_data{
+    position: absolute;
+    font-size: 0.8rem;
+    color: rgba(0,0,0,0.85);
+  }
+  .block{
+    position: relative;
+    width: 10rem;
+    height: 0.4266667rem;
+    background-color: #f1f1f1;
+    top: 0.4266667rem;
+  }
+  .function{
+    position: relative;
+    top: 0.426667rem;
+    width: 10rem;
+    height: 1.3333rem;
+  }
+  .homepage_img1{
+    width: 0.5066673rem;
+    height: 0.43rem;
+    position: absolute;
+    left: 0.4266667rem;
+    top: 0.426667rem;
+  }
+  .homepage_img2{
+    width: 0.4rem;
+    height: 0.43rem;
+    position: absolute;
+    right:0.426667rem ;
+    top: 0.426667rem;
+  }
+  .hr{
+    position: absolute;
+    left: 0.426667rem;
+    border-bottom: 0.02rem solid rgba(0,0,0,0.1);
+    width: 9.573333rem;
+    height: 1.3333rem;
+  }
+  .font{
+    position: absolute;
+    top: 0.3rem;
+    left: 1.2rem;
+    font-size: 0.426667rem;
+    color: rgba(0,0,0,0.85);
+  }
+  .my_recommendation{
+    position: relative;
+    width: 10rem;
+    height: 1.33333rem;
+  }
+  .block2{
+    width: 10rem;
+    height: 2.45rem;
+    position: relative;
+    top: 0.6rem;
+    background-color: #f1f1f1;
+  }
 
 
 </style>
 <body>
 <div class="navigation_bar">
-  <img class="photo1" src="../img/homepage_6.png" >
-</div>
-
-
-<div class="head_portrait">
-  <div class="circle">
-
+  <a href="mypage.html"><img class="photo1" src="../img/homepage_6.png" ></a>
+  <a href="mypage.html"><span class="font1">我的</span></a>
+  <div class="head_portrait">
+    <span class="name"></span>
+  </div>
+  <div class="move_name">
+  <span class="total_name"></span>
   </div>
 </div>
 <div class="my_situation">
-
+  <div class="total_read">
+    <span class="total_read_font">我的总阅</span>
+    <span class="total_read_data">0</span>
+  </div>
+  <div class="my_collection">
+    <span class="my_collection_font">我的收藏</span>
+    <span class="my_collection_data">0</span>
+  </div>
+  <div class="my_comments">
+    <span class="my_comments_font">我的评论</span>
+    <span class="my_comments_data">0</span>
+  </div>
+</div>
+<div class="block"></div>
+<div class="function">
+  <div class="my_overdue">
+    <img  class="homepage_img1" src="../img/homepage_1.png">
+    <a href="my_overdue.html"><span class="font">我的逾期</span></a>
+    <img  class="homepage_img2" src="../img/homepage_7.png">
+    <div class="hr"></div>
+  </div>
 </div>
 <div class="function">
+<div class="my_recommendation">
+  <img class="homepage_img1" src="../img/homepage_2.png">
+  <a href="my_recommand.html"><span class="font">我的荐购</span></a>
+  <img  class="homepage_img2" src="../img/homepage_7.png">
+</div>
+</div>
+<div class="block"></div>
+<div class="function">
+<div class="entrance_examination">
+  <img class="homepage_img1" src="../img/homepage_3.png">
+  <a href="problem.html"> <span class="font">入馆考试</span></a>
+  <img  class="homepage_img2" src="../img/homepage_7.png">
+  <div class="hr"></div>
+</div>
+</div>
+
+<div class="function">
+  <div class="entrance_examination">
+    <img class="homepage_img1" src="../img/homepage_4.png">
+    <a href="http://210.35.251.243/reader/redr_lost.php"><span class="font">书证挂失</span></a>
+    <img  class="homepage_img2" src="../img/homepage_7.png">
+    <div class="hr"></div>
+  </div>
+</div>
+
+<div class="function">
+  <div class="entrance_examination">
+    <img class="homepage_img1" src="../img/homepage_5.png">
+    <a href="problem.html"> <span class="font">常见问题</span></a>
+    <img  class="homepage_img2" src="../img/homepage_7.png">
+  </div>
+</div>
+<div>
+<div class="block2">
 
 </div>
+</div>
+<script src="../static/homepage_js.js"></script>
 </body>
 </html>

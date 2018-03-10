@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">  
+   	<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+   	<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script>
+	$(document).ready(function(){
+		$.ajax({
+          type: "GET",
+          timeout: 10000, // 超时时间 10 秒
+          headers: {
+          	'Access-Control-Allow-Origin':'*'
+          },
+          url: "https://api.douban.com/v2/book/isbn/978-7-111-49552-9",
+          dataType: "json",
+          success: function(data) {
+          	$("p").text("Hello world!");
+          }
+      })
+	});
+	</script>
+</head>
+<body>
+<div class="jumbotron">
+<div class="container">
+	<img id='picture' src="" alt="..." class="img-thumbnail col-xs-4">
+	<p id='1'></p>
+</div>
+</div>
+</body>
+</html>
